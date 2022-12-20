@@ -1,7 +1,7 @@
 name: tnk_flutter_pub
 description: tnk pub flutter plugin support android.
 version: 0.0.1
-homepage:
+homepage: https://github.com/tnkfactory/tnk_flutter_pub_plugin
 
 environment:
   sdk: '>=2.18.5 <3.0.0'

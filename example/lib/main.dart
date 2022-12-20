@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:tnk_flutter_pub/tnk_flutter_pub.dart';
-import 'package:tnk_flutter_pub/tnk_flutter_pub_platform_interface.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,34 +16,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _tnk_result = 'Unknown';
+  String _tnkResult = 'Unknown';
+  // Tnk pub plugin
   final _tnkFlutterPubPlugin = TnkFlutterPub();
 
   @override
   void initState() {
     super.initState();
-    // initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> showInterstitial() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+    String tnkResult;
     try {
-      platformVersion = await TnkFlutterPubPlatform.instance.showInterstitial("TEST_INTERSTITIAL_") ?? "onFail";
+      // 전면광고를 출력합니다.
+      tnkResult = await _tnkFlutterPubPlugin.showInterstitial("TEST_INTERSTITIAL_V") ?? "onFail";
     } on PlatformException catch(e){
-      platformVersion = e.message ?? "onFail";
-      // platformVersion = 'Failed to get platform version.';
+      tnkResult = e.message ?? "onFail";
     }
+    // 성공시 : onShow
+    // 실패시 : e.message에 담긴 에러메세지 (ex : publicher Id or Placement Id is not registered.)
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
-      _tnk_result = platformVersion;
+      _tnkResult = tnkResult;
     });
   }
 
@@ -59,11 +54,11 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text('result \n\n$_tnk_result\n'),
+            Text('result \n\n$_tnkResult\n'),
             OutlinedButton(
               onPressed: (){ showInterstitial(); },
-              child: Text('show interstitial'),
               style: OutlinedButton.styleFrom(foregroundColor: Colors.black),
+              child: const Text('show interstitial'),
             ),
           ],
           )
