@@ -1,15 +1,15 @@
 # tnk_flutter_pub
 
-A new Flutter plugin project.
+티엔케이팩토리 지면광고 flutter plugin 입니다.
 
-## Getting Started
+flutter plugin에서는 아래의 기능을 사용 하실 수 있습니다.
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+* 전면 광고(Interstitial Ad)
+* 네이티브 광고(Native Ad)
+* 동영상 리워드 광고(Video Reward Ad)
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## 안드로이드 개발 안내
+
+[안드로이드 가이드](https://github.com/tnkfactory/tnk_flutter_pub_plugin/blob/master/guide_android.md)
 
