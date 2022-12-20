@@ -10,6 +10,9 @@ class MockTnkFlutterPubPlatform
 
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<String?> showInterstitial(placementId) => Future.value('onShow');
 }
 
 void main() {

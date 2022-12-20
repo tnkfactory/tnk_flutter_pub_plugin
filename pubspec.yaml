@@ -1,6 +1,6 @@
 name: tnk_flutter_pub
 description: tnk pub flutter plugin support android.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/tnkfactory/tnk_flutter_pub_plugin
 
 environment:
@@ -37,8 +37,8 @@ flutter:
       android:
         package: com.tnkfactory.flutter.pub
         pluginClass: TnkFlutterPubPlugin
-#      ios:
-#        pluginClass: TnkFlutterPubPlugin
+      ios:
+        pluginClass: TnkFlutterPubPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
