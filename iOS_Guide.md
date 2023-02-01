@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
 Test Flight 에서는 별도로 계정등록을 하지않아도 간단히 테스트를 진행할 수 있었습니다. 하지만 실제 광고를 받기 위해서는 우선 Tnk Publish Site 에서 Inventory를 등록하여 발급받은 ID 를 info.plist 파일에 tnk_pub_id 항목으로 추가하셔야합니다.
 아래의 샘플을 참고하시어 실제 ID 를 등록하세요.
 
-![tnk_pub_id](./img/tnk_pub_id.png)
+![tnk_pub_id](https://github.com/tnkfactory/ios-pub-sdk/blob/main/img/tnk_pub_id.png)
 
 실제 ID 를 등록하면 위 Test Flight 코드에서는 더 이상 광고가 나타나지 않습니다. Tnk Publish Site 에서 광고 유형에 맞추어 Placement 를 등록하시고 등록한 Placement의 이름을 사용하셔야 실제 광고가 표시됩니다.
 
