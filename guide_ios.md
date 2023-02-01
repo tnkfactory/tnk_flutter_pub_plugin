@@ -19,7 +19,7 @@ flutter pub add tnk_flutter_pub
 아래와 같이 사용하여 테스트용 전면광고 출력이 가능합니다.
 
 ```dart
-import 'package:tnk_flutter_ssp/tnk_flutter_ssp.dart';
+import 'package:tnk_flutter_pub/tnk_flutter_pub.dart';
 
 class _MyAppState extends State<MyApp> {
   String _tnkResult = 'Unknown';
