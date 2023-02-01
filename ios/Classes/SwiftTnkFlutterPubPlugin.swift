@@ -1,6 +1,8 @@
 import Flutter
 import UIKit
 import TnkPubSdk
+import AppTrackingTransparency
+import AdSupport
 
 public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin, TnkPubSdk.TnkAdListener {
     
@@ -14,19 +16,22 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin, TnkPubSdk.TnkAdL
       let viewController = UIApplication.shared.keyWindow?.rootViewController
     switch call.method {
         case "showInterstitial":
-            let adItem = TnkInterstitialAdItem(viewController: viewController!, placementId: "TEST_INTERSTITIAL_V")
+        TnkAdConfiguration.setCOPPA(false)
+        requestPermission() 
+        guard let placementId = call.arguments as? String else {
+            result(FlutterError(code: call.method, message: "Missing placementid", details: nil))
+            return
+          }
+            let adItem = TnkInterstitialAdItem(viewController: viewController!, placementId: placementId)
                 adItem.setListener(self)
                 adItem.load()
-                result("iOS success")
+                
                 break;
         case "platformVersion":
                 result("iOS " + UIDevice.current.systemVersion)
                 break;
         case "exitInterstitial":
-            let adItem = TnkInterstitialAdItem(viewController: viewController!, placementId: "TEST_INTERSTITIAL_V")
-                adItem.setListener(self)
-                adItem.load()
-                result("iOS success")
+                result("iOS not support exitInterstitial")
             break;
         default:
             result("iOS method : " + call.method  )
@@ -44,5 +49,33 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin, TnkPubSdk.TnkAdL
     
     public func onError(_ adItem: TnkAdItem, error: AdError) {
         print("tnk onError \(error.rawValue)")
+    }
+    public func requestPermission() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .authorized:
+                    // Tracking authorization dialog was shown
+                    // and we are authorized
+                    print("Authorized")
+                    
+                    // Now that we are authorized we can get the IDFA
+                    print(ASIdentifierManager.shared().advertisingIdentifier)
+                case .denied:
+                    // Tracking authorization dialog was
+                    // shown and permission is denied
+                    print("Denied")
+                case .notDetermined:
+                    // Tracking authorization dialog has not been shown
+                    print("Not Determined")
+                case .restricted:
+                    print("Restricted")
+                @unknown default:
+                    print("Unknown")
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

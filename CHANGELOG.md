@@ -1,3 +1,11 @@
+## 0.0.3
+
+종료팝업 관련 처리 추가
+
+## 0.0.2
+
+아이폰 sdk 기능 구현
+
 ## 0.0.1
 
-* TODO: Describe initial release.
+안드로이드 sdk 기능 구현
