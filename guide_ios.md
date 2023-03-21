@@ -72,6 +72,17 @@ class _MyAppState extends State<MyApp> {
 
 실제 ID 를 등록하면 위 Test Flight 코드에서는 더 이상 광고가 나타나지 않습니다. Tnk Publish Site 에서 광고 유형에 맞추어 Placement 를 등록하시고 등록한 Placement의 이름을 사용하셔야 실제 광고가 표시됩니다.
 
+## iOS프로젝트 설정 
+
+##### info.plist 파일에 "Privacy - Tracking Usage Description" 을 추가합니다. 추가되는 문구는 앱 추적 동의 팝업 창에 노출됩니다.
+
+###### 작성예시
+
+**사용자에게 적합한 광고를 제공하고 참여여부를 확인하기 위하여 광고ID를 수집합니다. 광고ID는 오퍼월 서비스를 제공하기 위해서 필수적인 항목으로 추적허용을 해주셔야 사용이 가능합니다.**
+
+![Guide_08](https://github.com/tnkfactory/ios-sdk-rwd/blob/master/img/Guide_08.png)
+
+
 ## 2. 테스트 광고 등록
 
 테스트 광고 등록 후 placement id를 사용하여 광고를 호출합니다.
