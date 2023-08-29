@@ -15,6 +15,8 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import org.json.JSONObject
+
 
 /** TnkFlutterPubPlugin */
 class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -54,6 +56,34 @@ class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             result.error("" + error.value, error.message, null)
                         } else {
                             result.error("-99", "에러가 발생했습니다.", null)
+                        }
+                        JSONObject().apply {
+                            put("placementId", placementId)
+                            error?.let {
+                                put("onError", (error.value.toString()) + (error.message ?: "에러가 발생했습니다."))
+                            } ?: put("onError", "-99 : 에러가 발생했습니다.")
+                        }.also {
+                            channel.invokeMethod("TnkAdListener", it.toString())
+                        }
+                    }
+
+                    /**
+                     * 광고의 재생이 완료되었을 경우 호출됩니다.
+                     * @param adItem 광고 아이템
+                     * @param verifyCode 적립 여부
+                     */
+                    override fun onVideoCompletion(adItem: AdItem?, verifyCode: Int) {
+                        super.onVideoCompletion(adItem, verifyCode)
+                        if (verifyCode >= VIDEO_VERIFY_SUCCESS_SELF) {
+                            // 적립 성공
+                        } else {
+                            // 적립 실패
+                        }
+                        JSONObject().apply {
+                            put("placementId", placementId)
+                            put("onVideoCompletion", verifyCode.toString())
+                        }.also {
+                            channel.invokeMethod("TnkAdListener", it.toString())
                         }
                     }
                 }).also {

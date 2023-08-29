@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:tnk_flutter_pub/tnk_flutter_pub.dart';
+import 'package:tnk_flutter_pub_example/tnk_flutter_rwd_analytics.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,12 +18,33 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _tnkResult = 'Unknown';
+
   // Tnk pub plugin
   final _tnkFlutterPubPlugin = TnkFlutterPub();
 
   @override
   void initState() {
+    MethodChannel channel = const MethodChannel('tnk_flutter_pub');
+    channel.setMethodCallHandler(tnkInvokedMethods);
     super.initState();
+  }
+
+  Future<dynamic> tnkInvokedMethods(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case "TnkAdListener":
+        String result = TnkRewardVideoListener.onEvent(methodCall.arguments, "TEST_INTERSTITIAL_V");
+        if (result == TnkRewardVideoListener.PASS) {
+          // 해당 placement id의 이벤트가 아님
+          print(result);
+        } else if (result == TnkRewardVideoListener.SUCCESS) {
+          // 보상 지급
+          print(result);
+        } else {
+          // 보상 지급 실패
+          print(result);
+        }
+        break;
+    }
   }
 
   Future<void> showInterstitial() async {
@@ -30,7 +52,7 @@ class _MyAppState extends State<MyApp> {
     try {
       // 전면광고를 출력합니다.
       tnkResult = await _tnkFlutterPubPlugin.showInterstitial("TEST_INTERSTITIAL_V") ?? "onFail";
-    } on PlatformException catch(e){
+    } on PlatformException catch (e) {
       tnkResult = e.message ?? "onFail";
     }
     // 성공시 : onShow
@@ -51,18 +73,19 @@ class _MyAppState extends State<MyApp> {
           title: const Text('tnk pub plugin test app'),
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text('result \n\n$_tnkResult\n'),
             OutlinedButton(
-              onPressed: (){ showInterstitial(); },
+              onPressed: () {
+                showInterstitial();
+              },
               style: OutlinedButton.styleFrom(foregroundColor: Colors.black),
               child: const Text('show interstitial'),
             ),
           ],
-          )
-        ),
+        )),
       ),
     );
   }

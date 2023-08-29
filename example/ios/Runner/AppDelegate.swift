@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import tnk_flutter_pub
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
