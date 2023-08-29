@@ -4,7 +4,7 @@ import TnkPubSdk
 import AppTrackingTransparency
 import AdSupport
 
-public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdListener {
+public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
     
     static var channel:FlutterMethodChannel? = nil
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -12,6 +12,8 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdLi
         let instance = SwiftTnkFlutterPubPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel!)
     }
+    
+    var listener:FlutterListener? = nil
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let viewController = UIApplication.shared.keyWindow?.rootViewController
@@ -23,14 +25,14 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdLi
                 result(FlutterError(code: call.method, message: "Missing placementid", details: nil))
                 return
             }
-            //let adItem = TnkInterstitialAdItem(viewController: viewController!, placementId: placementId)
-            let listener = FlutterListener(placementId: placementId, viewController: viewController!)
-//            listener.loadItem()
-            //adItem.setListener(listener)
-            //adItem.load()
+            
+            listener = FlutterListener(placementId: placementId, viewController: viewController!)
+            listener?.loadItem()
+            
+            
             let adItem = TnkInterstitialAdItem(viewController: viewController!, placementId: placementId)
-//                        adItem.setListener(self)
-                        adItem.load()
+            adItem.load()
+            
             break;
         case "platformVersion":
             result("iOS " + UIDevice.current.systemVersion)
@@ -72,26 +74,6 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdLi
         }
     }
     
-    public func onLoad(_ adItem: TnkAdItem) {
-        adItem.show()
-        print("tnk onLoad")
-    }
-    public func onShow(_ adItem: TnkAdItem) {
-        print("tnk onShow")
-    }
-    
-    public func onError(_ adItem: TnkAdItem, error: AdError) {
-        print("tnk onError \(error.rawValue)")
-    }
-        
-    public func onVideoCompletion(_ adItem:TnkAdItem, verifyCode:Int) {
-        if verifyCode >= 0 {
-            // 적립 진행
-        }
-        else {
-            // 적립 실패
-        }
-    }
     
     class FlutterListener : TnkPubSdk.TnkAdListener {
         var placementId:String
@@ -100,7 +82,7 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdLi
             self.placementId = placementId
             self.viewController = viewController
         }
-
+        
         public func loadItem(){
             let adItem = TnkInterstitialAdItem(viewController: viewController, placementId: placementId)
             //let listener = FlutterListener(placementId: placementId)
@@ -118,31 +100,65 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdLi
         public func onError(_ adItem: TnkAdItem, error: AdError) {
             print("tnk onError \(error.rawValue)")
             let des = error.description()
-            let jsonObject: [Any]  = [
-                [
-                    "placementId": placementId,
-                    "onError": String(error.rawValue) + error.description()
-                ]
-            ]
-            channel?.invokeMethod("TnkAdListener", arguments: jsonObject)
+            
+            let jsonData:[String:Any] = [
+                "placementId":placementId,
+                "onError": String(error.rawValue) + error.description()
+            ] as Dictionary
+            
+            
+            
+            let result = parsingJsonObj(_data:jsonData)
+            print( result )
+            
+            
+            channel?.invokeMethod("TnkAdListener", arguments: result)
             
         }
-            
+        
         public func onVideoCompletion(_ adItem:TnkAdItem, verifyCode:Int) {
-            let jsonObject: [Any]  = [
-                [
-                    "placementId": placementId,
-                    "onVideoCompletion": String(verifyCode)
-                ]
-            ]
-            channel?.invokeMethod("TnkAdListener", arguments: jsonObject)
+            print("onVideoCompletion")
+            
+            let jsonData:[String:Any] = [
+                "placementId":placementId,
+                "onVideoCompletion": String(verifyCode)
+            ] as Dictionary
+            
+            let result = parsingJsonObj(_data:jsonData)
+            print( result )
+            
+            channel?.invokeMethod("TnkAdListener", arguments: result)
             if verifyCode >= 0 {
                 // 적립 진행
+                
+                
             }
             else {
                 // 적립 실패
+                
+                
             }
         }
+        
+        
+        private func parsingJsonObj(_data: [String:Any]) -> String {
+            
+            var jsonObj:String = ""
+            do {
+                let jsonCreate = try JSONSerialization.data(withJSONObject: _data, options:.prettyPrinted)
+                jsonObj = String(data:jsonCreate, encoding: .utf8) ?? ""
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            return jsonObj
+            
+        }
+        
+        
     }
+    
+    
+    
     
 }

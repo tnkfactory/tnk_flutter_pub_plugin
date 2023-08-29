@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   Future<dynamic> tnkInvokedMethods(MethodCall methodCall) async {
     switch (methodCall.method) {
       case "TnkAdListener":
-        String result = TnkRewardVideoListener.onEvent(methodCall.arguments, "TEST_INTERSTITIAL_V");
+        String result = TnkRewardVideoListener.onEvent(methodCall.arguments, "pubtest");
         if (result == TnkRewardVideoListener.PASS) {
           // 해당 placement id의 이벤트가 아님
           print(result);
@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
     String tnkResult;
     try {
       // 전면광고를 출력합니다.
-      tnkResult = await _tnkFlutterPubPlugin.showInterstitial("TEST_INTERSTITIAL_V") ?? "onFail";
+      tnkResult = await _tnkFlutterPubPlugin.showInterstitial("pubtest") ?? "onFail";
     } on PlatformException catch (e) {
       tnkResult = e.message ?? "onFail";
     }
