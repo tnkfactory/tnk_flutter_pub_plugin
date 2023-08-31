@@ -19,9 +19,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _tnkResult = 'Unknown';
 
-  // Tnk pub plugin
-  final _tnkFlutterPubPlugin = TnkFlutterPub();
-
   @override
   void initState() {
     MethodChannel channel = const MethodChannel('tnk_flutter_pub');
@@ -30,39 +27,68 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<dynamic> tnkInvokedMethods(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case "TnkAdListener":
-        String result = TnkRewardVideoListener.onEvent(methodCall.arguments, "TEST_INTERSTITIAL_V");
-        if (result == TnkRewardVideoListener.PASS) {
-          // 해당 placement id의 이벤트가 아님
-          print(result);
-        } else if (result == TnkRewardVideoListener.SUCCESS) {
-          // 보상 지급
-          print(result);
-        } else {
-          // 보상 지급 실패
-          print(result);
-        }
-        break;
-    }
+    TnkFlutterPubEventHandler.checkEvent(methodCall);
   }
 
   Future<void> showInterstitial() async {
-    String tnkResult;
-    try {
-      // 전면광고를 출력합니다.
-      tnkResult = await _tnkFlutterPubPlugin.showInterstitial("TEST_INTERSTITIAL_V") ?? "onFail";
-    } on PlatformException catch (e) {
-      tnkResult = e.message ?? "onFail";
-    }
-    // 성공시 : onShow
-    // 실패시 : e.message에 담긴 에러메세지 (ex : publicher Id or Placement Id is not registered.)
+    // 전면광고를 출력합니다.
+    TnkFlutterPubEventHandler.shoInterstitial( "TEST_INTERSTITIAL_V", ITnkAdListener(
+          onLoad: () {
+            print("onLoad");
+            setState(() {
+              _tnkResult = "onLoad";
+            });
+          },
+          onShow: () {
+            print("onShow");
+            setState(() {
+              _tnkResult = "onShow";
+            });
+          },
+          onClose: (String type) {
+            print("onClose $type");
+            setState(() {
+              _tnkResult = "onClose $type";
+            });
+          },
+          onVideoCompletion: (String code) {
+            print("onVideoCompletion $code");
+            switch (code) {
+              case TnkRewardVideoListener.VIDEO_VERIFY_SUCCESS_S2S:
+                print("성공");
+                break;
+              case TnkRewardVideoListener.VIDEO_VERIFY_SUCCESS_SELF:
+                print("성공");
+                break;
+              case TnkRewardVideoListener.VIDEO_VERIFY_FAILED_TIMEOUT:
+                print("매체 서버를 통해서 지급불가 판단됨");
+                break;
+              case TnkRewardVideoListener.VIDEO_VERIFY_FAILED_NO_DATA:
+                print("광고 송출 및 노출 이력 데이터가 없음");
+                break;
+              case TnkRewardVideoListener.VIDEO_VERIFY_FAILED_TEST_VIDEO:
+                print("테스트 동영상 광고임");
+                break;
+              case TnkRewardVideoListener.VIDEO_VERIFY_FAILED_ERROR:
+                print("그외 시스템 에러가 발생");
+                break;
+              default:
+                print("그외 시스템 에러가 발생");
+                break;
+            }
+            setState(() {
+              _tnkResult = "onVideoCompletion $code";
+            });
+          },
+          onError: (String code, String message) {
+            print("onError $code $message");
+            setState(() {
+              _tnkResult = "onError $code $message";
+            });
+          },
+        ));
 
     if (!mounted) return;
-
-    setState(() {
-      _tnkResult = tnkResult;
-    });
   }
 
   @override

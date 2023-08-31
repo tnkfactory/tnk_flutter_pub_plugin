@@ -41,12 +41,26 @@ class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                         super.onLoad(adItem)
                         adItem?.show()
                         result.success("onShow")
+
+                        JSONObject().apply {
+                            put("placementId", placementId)
+                            put("event", "onLoad")
+                        }.also {
+                            channel.invokeMethod("TnkPubAdListener", it.toString())
+                        }
                     }
 
                     override fun onClose(adItem: AdItem?, type: Int) {
                         super.onClose(adItem, type)
                         if (type == 2) {
                             (context as Activity).finish()
+                        }
+                        JSONObject().apply {
+                            put("type", type.toString())
+                            put("placementId", placementId)
+                            put("event", "onClose")
+                        }.also {
+                            channel.invokeMethod("TnkPubAdListener", it.toString())
                         }
                     }
 
@@ -58,12 +72,12 @@ class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             result.error("-99", "에러가 발생했습니다.", null)
                         }
                         JSONObject().apply {
+                            put("code", (error?.value ?: -99).toString())
+                            put("message", error?.message ?: "에러가 발생했습니다.")
                             put("placementId", placementId)
-                            error?.let {
-                                put("onError", (error.value.toString()) + (error.message ?: "에러가 발생했습니다."))
-                            } ?: put("onError", "-99 : 에러가 발생했습니다.")
+                            put("event", "onError")
                         }.also {
-                            channel.invokeMethod("TnkAdListener", it.toString())
+                            channel.invokeMethod("TnkPubAdListener", it.toString())
                         }
                     }
 
@@ -74,16 +88,22 @@ class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                      */
                     override fun onVideoCompletion(adItem: AdItem?, verifyCode: Int) {
                         super.onVideoCompletion(adItem, verifyCode)
-                        if (verifyCode >= VIDEO_VERIFY_SUCCESS_SELF) {
-                            // 적립 성공
-                        } else {
-                            // 적립 실패
+                        JSONObject().apply {
+                            put("code", verifyCode.toString())
+                            put("placementId", placementId)
+                            put("event", "onVideoCompletion")
+                        }.also {
+                            channel.invokeMethod("TnkPubAdListener", it.toString())
                         }
+                    }
+
+                    override fun onShow(adItem: AdItem?) {
+                        super.onShow(adItem)
                         JSONObject().apply {
                             put("placementId", placementId)
-                            put("onVideoCompletion", verifyCode.toString())
+                            put("event", "onShow")
                         }.also {
-                            channel.invokeMethod("TnkAdListener", it.toString())
+                            channel.invokeMethod("TnkPubAdListener", it.toString())
                         }
                     }
                 }).also {
