@@ -47,6 +47,17 @@ class _MyAppState extends State<MyApp> {
           onClose: (String type) {
 
             print("onClose $type");
+            switch(type) {
+              case TnkRewardVideoListener.CLOSE:
+                print( "닫기버튼 클릭");
+                break;
+              case TnkRewardVideoListener.AUTO_CLOSE:
+                print( "자동 닫기");
+                break;
+              case TnkRewardVideoListener.EXIT:
+                print( "종료 버튼 클릭");
+                break;
+            }
 
           },
           onVideoCompletion: (String code) {
