@@ -32,24 +32,19 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> showInterstitial() async {
     // 전면광고를 출력합니다.
-    TnkFlutterPubEventHandler.shoInterstitial( "TEST_INTERSTITIAL_V", ITnkAdListener(
+    TnkFlutterPubEventHandler.shoInterstitial( "puttest", ITnkAdListener(
           onLoad: () {
             print("onLoad");
-            setState(() {
-              _tnkResult = "onLoad";
-            });
+
           },
           onShow: () {
             print("onShow");
-            setState(() {
-              _tnkResult = "onShow";
-            });
+
           },
           onClose: (String type) {
+
             print("onClose $type");
-            setState(() {
-              _tnkResult = "onClose $type";
-            });
+
           },
           onVideoCompletion: (String code) {
             print("onVideoCompletion $code");
@@ -76,9 +71,7 @@ class _MyAppState extends State<MyApp> {
                 print("그외 시스템 에러가 발생");
                 break;
             }
-            setState(() {
-              _tnkResult = "onVideoCompletion $code";
-            });
+
           },
           onError: (String code, String message) {
             print("onError $code $message");
@@ -124,9 +117,7 @@ class _MyAppState extends State<MyApp> {
                 break;
               default:
             }
-            setState(() {
-              _tnkResult = "onError $code $message";
-            });
+
           },
         ));
 

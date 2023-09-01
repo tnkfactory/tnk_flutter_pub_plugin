@@ -24,7 +24,7 @@ class TnkRewardVideoListener {
   static const String VIDEO_VERIFY_FAILED_TEST_VIDEO = "-4"; // 테스트 동영상 광고임
   static const String VIDEO_VERIFY_FAILED_ERROR = "-9"; // 그외 시스템 에러가 발생
 
-
+  //Error Code
   static const String NoError = "0";      // 정상
   static const String NoAd = "-1";        // 광고 없음
   static const String NoImage = "-2";     // 이미지 없음
@@ -38,6 +38,12 @@ class TnkRewardVideoListener {
   static const String NoScreenOrientation = "-25";  // 화면 방향이 없음
   static const String NoTestDevice = "-28";         // 테스트 디바이스가 아님
   static const String SystemFailure = "-99";        // 시스템 오류
+
+
+  // close type
+  static const String CLOSE = "0"; // 닫기 버튼 클릭
+  static const String AUTO_CLOSE = "1"; // 자동 닫기
+  static const String EXIT ="2"; // 종료 버튼 클릭
 }
 
 /// 이벤트 리스너 인터페이스
@@ -133,6 +139,7 @@ class TnkFlutterPubEventHandler {
   }
 
   static void checkEvent(MethodCall methodCall) {
+    print( methodCall );
     if (methodCall.method == TnkRewardVideoListener.METHOD_NAME) {
       Map<String, dynamic> jsonObject = jsonDecode(methodCall.arguments);
 
