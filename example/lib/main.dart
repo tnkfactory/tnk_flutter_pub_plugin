@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> showInterstitial() async {
     // 전면광고를 출력합니다.
-    TnkFlutterPubEventHandler.shoInterstitial( "puttest", ITnkAdListener(
+    TnkFlutterPubEventHandler.shoInterstitial( "pubtest", ITnkAdListener(
           onLoad: () {
             print("onLoad");
 
