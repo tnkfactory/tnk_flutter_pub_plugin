@@ -82,6 +82,48 @@ class _MyAppState extends State<MyApp> {
           },
           onError: (String code, String message) {
             print("onError $code $message");
+            switch (code) {
+              case TnkRewardVideoListener.NoError:
+                print("성공");
+                break;
+              case TnkRewardVideoListener.NoAd:
+                print("광고 없음");
+                break;
+              case TnkRewardVideoListener.NoImage:
+                print("이미지 없음");
+                break;
+              case TnkRewardVideoListener.Timeout:
+                print("타임아웃");
+                break;
+              case TnkRewardVideoListener.Cancel:
+                print("사용자 취소");
+                break;
+              case TnkRewardVideoListener.ShowBeforeLoad:
+                print("load() 호출 후 show() 호출 전에 close() 호출");
+                break;
+              case TnkRewardVideoListener.NoAdFrame:
+                print("광고 뷰가 없음");
+                break;
+              case TnkRewardVideoListener.DupLoad:
+                print("이미 load() 호출된 상태");
+                break;
+              case TnkRewardVideoListener.DupShow:
+                print("이미 show() 호출된 상태");
+                break;
+              case TnkRewardVideoListener.NoPlacementId:
+                print("placementId가 없음");
+                break;
+              case TnkRewardVideoListener.NoScreenOrientation:
+                print("화면 방향이 없음");
+                break;
+              case TnkRewardVideoListener.NoTestDevice:
+                print("테스트 디바이스가 아님");
+                break;
+              case TnkRewardVideoListener.SystemFailure:
+                print("시스템 오류");
+                break;
+              default:
+            }
             setState(() {
               _tnkResult = "onError $code $message";
             });

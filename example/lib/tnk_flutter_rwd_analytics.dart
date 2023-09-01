@@ -23,6 +23,21 @@ class TnkRewardVideoListener {
   static const String VIDEO_VERIFY_FAILED_NO_DATA = "-3"; // 광고 송출 및 노출 이력 데이터가 없음
   static const String VIDEO_VERIFY_FAILED_TEST_VIDEO = "-4"; // 테스트 동영상 광고임
   static const String VIDEO_VERIFY_FAILED_ERROR = "-9"; // 그외 시스템 에러가 발생
+
+
+  static const String NoError = "0";      // 정상
+  static const String NoAd = "-1";        // 광고 없음
+  static const String NoImage = "-2";     // 이미지 없음
+  static const String Timeout = "-3";     // 타임아웃
+  static const String Cancel = "-4";        // 사용자 취소
+  static const String ShowBeforeLoad = "-5";  // load() 호출 후 show() 호출 전에 close() 호출
+  static const String NoAdFrame = "-6";       // 광고 뷰가 없음
+  static const String DupLoad = "-7";         // 이미 load() 호출된 상태
+  static const String DupShow = "-8";         // 이미 show() 호출된 상태
+  static const String NoPlacementId = "-24";   // placementId가 없음
+  static const String NoScreenOrientation = "-25";  // 화면 방향이 없음
+  static const String NoTestDevice = "-28";         // 테스트 디바이스가 아님
+  static const String SystemFailure = "-99";        // 시스템 오류
 }
 
 /// 이벤트 리스너 인터페이스
