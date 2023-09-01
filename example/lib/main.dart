@@ -19,6 +19,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _tnkResult = 'Unknown';
 
+  // Tnk pub plugin
+  final _tnkFlutterPubPlugin = TnkFlutterPub();
+
   @override
   void initState() {
     MethodChannel channel = const MethodChannel('tnk_flutter_pub');

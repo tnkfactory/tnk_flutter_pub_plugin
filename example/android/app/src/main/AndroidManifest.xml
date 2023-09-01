@@ -30,5 +30,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <meta-data android:name="tnk_pub_id" android:value="60c080103011084aa48011010900070b" />
     </application>
 </manifest>

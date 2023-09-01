@@ -4,7 +4,7 @@ import TnkPubSdk
 import AppTrackingTransparency
 import AdSupport
 
-public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
+public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdListener {
     
     static var channel:FlutterMethodChannel? = nil
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -14,7 +14,7 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
     }
     
     var listener:FlutterListener? = nil
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let viewController = UIApplication.shared.keyWindow?.rootViewController
         switch call.method {
@@ -25,10 +25,10 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
                 result(FlutterError(code: call.method, message: "Missing placementid", details: nil))
                 return
             }
-            
+
             listener = FlutterListener(placementId: placementId, viewController: viewController!)
             listener?.loadItem()
-            
+
             break;
         case "platformVersion":
             result("iOS " + UIDevice.current.systemVersion)
@@ -41,8 +41,8 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
             break;
         }
     }
-    
-    
+
+
     public func requestPermission() {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { status in
@@ -72,10 +72,10 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
         }
     }
     
-    
+
 
     
-    
+
     class FlutterListener : TnkPubSdk.TnkAdListener {
         var placementId:String
         var viewController:UIViewController
@@ -93,31 +93,31 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
         public func onLoad(_ adItem: TnkAdItem) {
             adItem.show()
             print("tnk onLoad")
-            
+
             let jsonData:[String:String] = [
                 "placementId":placementId,
                 "event": "onLoad"
             ] as Dictionary
-            
+
             let data = parsingJsonObj(_data:jsonData)
             print( data )
-            
+
             channel?.invokeMethod("TnkPubAdListener", arguments: data)
-            
+
         }
         public func onShow(_ adItem: TnkAdItem) {
             print("tnk onShow")
-            
+
             let jsonData:[String:String] = [
                 "placementId":placementId,
                 "event": "onShow"
             ] as Dictionary
-            
+
             let data = parsingJsonObj(_data:jsonData)
             print( data )
-            
+
             channel?.invokeMethod("TnkPubAdListener", arguments: data)
-            
+
         }
 
         public func onError(_ adItem: TnkAdItem, error: AdError) {
@@ -159,15 +159,15 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
 
             channel?.invokeMethod("TnkPubAdListener", arguments: data)
         }
-        
+
         public func onClose(_ adItem:TnkAdItem, type:AdClose) {
             print("onClose")
-            
+
 //            if(type.rawValue == 2) {
 //                print("close")
 //                return
 //            }
-            
+
             let jsonData:[String:String] = [
                 "placementId":placementId,
                 "event": "onClose",
@@ -176,7 +176,7 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
 
             let data = parsingJsonObj(_data:jsonData)
             print( data )
-            
+
             channel?.invokeMethod("TnkPubAdListener", arguments: data)
         }
 
@@ -194,8 +194,8 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin {
             return jsonObj
         }
     }
-    
-    
-    
-    
+
+
+
+
 }
