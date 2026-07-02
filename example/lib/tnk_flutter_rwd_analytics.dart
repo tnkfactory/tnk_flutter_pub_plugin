@@ -8,6 +8,7 @@ class TnkRewardVideoListener {
 
   static const String EVENT_ON_LOAD = "onLoad";
   static const String EVENT_ON_SHOW = "onShow";
+  static const String EVENT_ON_CLICK = "onClick";
   static const String EVENT_ON_CLOSE = "onClose";
   static const String EVENT_ON_VIDEO_COMPLETION = "onVideoCompletion";
   static const String EVENT_ON_ERROR = "onError";
@@ -68,6 +69,10 @@ class ITnkAdListener {
   /// @param adItem 이벤트 대상이되는 AdItem 객체
   Function() onShow = () {};
 
+  /// 광고 클릭시 호출됨. 광고 화면은 닫히지 않음
+  /// @param adItem 이벤트 대상이되는 AdItem 객체
+  Function() onClick = () {};
+
   /// 화면 닫힐 때 호출됨
   /// @param adItem 이벤트 대상이되는 AdItem 객체
   /// @param type 0:simple close, 1: auto close, 2:exit
@@ -89,7 +94,10 @@ class ITnkAdListener {
     required this.onClose,
     required this.onVideoCompletion,
     required this.onError,
-  });
+    Function()? onClick,
+  }) {
+    if (onClick != null) this.onClick = onClick;
+  }
 }
 
 class TnkPubAdItem {
@@ -106,6 +114,9 @@ class TnkPubAdItem {
         break;
       case TnkRewardVideoListener.EVENT_ON_SHOW:
         listener.onShow();
+        break;
+      case TnkRewardVideoListener.EVENT_ON_CLICK:
+        listener.onClick();
         break;
       case TnkRewardVideoListener.EVENT_ON_CLOSE:
         listener.onClose(jsonObject["type"]);
@@ -126,7 +137,7 @@ class TnkFlutterPubEventHandler {
 
   static final Map<String, TnkPubAdItem> _adMap = Map();
 
-  static void shoInterstitial(String placementId, ITnkAdListener listener) {
+  static void showInterstitial(String placementId, ITnkAdListener listener) {
     _tnkFlutterPubPlugin.showInterstitial(placementId);
     addListener(placementId, listener);
   }

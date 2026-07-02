@@ -24,12 +24,24 @@ class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
+
+    private val TAG = this.javaClass.simpleName
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "tnk_flutter_pub")
         channel.setMethodCallHandler(this)
+
+        // 배너 광고 PlatformView 팩토리 등록
+        flutterPluginBinding.platformViewRegistry.registerViewFactory(
+            "tnk_flutter_pub/banner_ad",
+            TnkBannerAdViewFactory(channel)
+        )
+    }
+
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        Log.d(TAG, "onDetachedFromEngine")
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
@@ -109,32 +121,29 @@ class TnkFlutterPubPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 }).also {
                     load()
                 }
-                Log.d("onMethodCall", call.method + " : " + call.arguments as String)
+                Log.d("showInterstitial", call.method + " : " + call.arguments as String)
             }
         } else if (call.method == "getPlatformVersion") {
             result.success("Android ${android.os.Build.VERSION.RELEASE}")
-        } else {
-            result.notImplemented()
         }
-    }
+        // 배너 광고는 MethodChannel 이 아니라 PlatformView(tnk_flutter_pub/banner_ad)로 노출한다.
+        // TnkBannerAdViewFactory / TnkBannerAdPlatformView 참고.
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-        channel.setMethodCallHandler(null)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        context = binding.activity
+        Log.d(TAG, "onAttachedToActivity")
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-//        TODO("Not yet implemented")
+        Log.d(TAG, "onDetachedFromActivityForConfigChanges")
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-//        TODO("Not yet implemented")
+        Log.d(TAG, "onReattachedToActivityForConfigChanges")
     }
 
     override fun onDetachedFromActivity() {
-//        TODO("Not yet implemented")
+        Log.d(TAG, "onDetachedFromActivity")
     }
 }

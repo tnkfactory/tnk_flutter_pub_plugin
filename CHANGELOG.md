@@ -1,3 +1,9 @@
+## 0.0.6
+
+- 배너 광고 추가 (`TnkBannerAdView` PlatformView, Android/iOS)
+- 광고 클릭 콜백(`onClick`) 추가
+- 동일 placementId 다중 배너 노출 및 key 기반 재요청 지원
+
 ## 0.0.5
 
 - 리워드 광고 콜백 수정

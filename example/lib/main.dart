@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:tnk_flutter_pub/tnk_flutter_pub.dart';
+import 'package:tnk_flutter_pub/tnk_banner_ad_view.dart';
 import 'package:tnk_flutter_pub_example/tnk_flutter_rwd_analytics.dart';
 
 void main() {
@@ -22,6 +23,18 @@ class _MyAppState extends State<MyApp> {
   // Tnk pub plugin
   final _tnkFlutterPubPlugin = TnkFlutterPub();
 
+  // 배너 광고 placement id (Tnk 콘솔에서 발급받은 값으로 교체)
+  static const String _bannerPlacementId = "home_banner";
+
+  // 배너 표시 여부 (버튼을 눌러야 노출). 배너 2개를 각각 제어한다.
+  bool _showBanner1 = false;
+  bool _showBanner2 = false;
+
+  // 배너 재요청 카운터: 값이 바뀌면 위젯 key 가 바뀌어 PlatformView 가 재생성되고
+  // 네이티브 배너가 새로 load 된다. (버튼을 다시 누를 때마다 새 광고 요청)
+  int _bannerReloadCount1 = 0;
+  int _bannerReloadCount2 = 0;
+
   @override
   void initState() {
     MethodChannel channel = const MethodChannel('tnk_flutter_pub');
@@ -33,9 +46,36 @@ class _MyAppState extends State<MyApp> {
     TnkFlutterPubEventHandler.checkEvent(methodCall);
   }
 
+  Future<void> showBanner(int slot) async {
+    // 전면광고처럼 버튼을 눌렀을 때 배너를 노출한다.
+    // 리스너를 등록(placementId 로 라우팅)하고 TnkBannerAdView 를 화면에 올리면
+    // 위젯 생성 시점에 네이티브 배너가 load 된다.
+    // 배너 2개가 같은 placementId 를 쓰므로 리스너는 한 번만 등록해도 된다.
+    TnkFlutterPubEventHandler.addListener(_bannerPlacementId, ITnkAdListener(
+      onLoad: () => print("banner onLoad"),
+      onShow: () => print("banner onShow"),
+      onClick: () => print("banner onClick"),
+      onClose: (String type) {},
+      onVideoCompletion: (String code) {},
+      onError: (String code, String message) =>
+          print("banner onError $code $message"),
+    ));
+
+    setState(() {
+      // 클릭할 때마다 해당 슬롯의 배너를 새로 요청 (key 변경 -> PlatformView 재생성)
+      if (slot == 1) {
+        _showBanner1 = true;
+        _bannerReloadCount1++;
+      } else {
+        _showBanner2 = true;
+        _bannerReloadCount2++;
+      }
+    });
+  }
+
   Future<void> showInterstitial() async {
     // 전면광고를 출력합니다.
-    TnkFlutterPubEventHandler.shoInterstitial( "pubtest", ITnkAdListener(
+    TnkFlutterPubEventHandler.showInterstitial( "banner", ITnkAdListener(
           onLoad: () {
             print("onLoad");
 
@@ -147,20 +187,108 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('tnk pub plugin test app'),
         ),
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('result \n\n$_tnkResult\n'),
-            OutlinedButton(
-              onPressed: () {
-                showInterstitial();
-              },
-              style: OutlinedButton.styleFrom(foregroundColor: Colors.black),
-              child: const Text('show interstitial'),
+            // 1) 버튼 영역: 광고를 노출시키는 액션 버튼들
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'result: $_tnkResult',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showInterstitial();
+                          },
+                          style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.black),
+                          child: const Text('show interstitial'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showBanner(1);
+                          },
+                          style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.black),
+                          child: const Text('show banner 1'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showBanner(2);
+                          },
+                          style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.black),
+                          child: const Text('show banner 2'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // 2) 디바이더: 버튼 영역과 광고 출력 영역을 구분
+            const Divider(height: 1, thickness: 1),
+
+            // 3) 광고 출력 영역: 배너/전면 등 광고가 표시되는 공간
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                alignment: Alignment.topCenter,
+                padding: const EdgeInsets.all(8.0),
+                child: (!_showBanner1 && !_showBanner2)
+                    ? const Text(
+                        '광고 영역\n버튼을 누르면 여기에 광고가 표시됩니다.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black38),
+                      )
+                    // 배너 광고: 버튼을 누르면 지정한 영역(너비/높이) 안에 PlatformView 로 노출된다.
+                    // iOS UiKitView 는 고유 크기가 없어 부모가 너비를 제약하지 않으면 0 으로 접혀
+                    // 광고가 로드돼도 화면에 보이지 않는다. 따라서 너비를 화면 폭으로 명시한다.
+                    // 배너 2개는 같은 placementId 를 쓰되 key 가 달라 각각 재생성/load 된다.
+                    : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (_showBanner1)
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 60,
+                              child: TnkBannerAdView(
+                                key: ValueKey('banner1_$_bannerReloadCount1'),
+                                placementId: _bannerPlacementId,
+                              ),
+                            ),
+                          if (_showBanner1 && _showBanner2)
+                            const SizedBox(height: 8),
+                          if (_showBanner2)
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 60,
+                              child: TnkBannerAdView(
+                                key: ValueKey('banner2_$_bannerReloadCount2'),
+                                placementId: _bannerPlacementId,
+                              ),
+                            ),
+                        ],
+                      ),
+              ),
             ),
           ],
-        )),
+        ),
       ),
     );
   }
