@@ -36,5 +36,10 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    # TnkPubSdk.xcframework 가 iOS 13.0 을 요구하므로 모든 pod 의 배포 타겟을 13.0 으로 맞춘다.
+    # (일부 pod 이 CocoaPods 기본 하한값으로 낮아져 발생하는 deployment target 불일치 방지)
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+    end
   end
 end
