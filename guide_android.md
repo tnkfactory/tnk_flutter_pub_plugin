@@ -126,8 +126,19 @@ close type `EXIT = "2"`, 동영상 검증 `VIDEO_VERIFY_SUCCESS_S2S = "1"` 등)
 # 기능 3. 배너광고 (Banner)
 
 배너광고는 화면 일부 영역에 인라인으로 노출되는 광고입니다. `TnkBannerAdView` 위젯을
-원하는 크기의 `SizedBox`/`Container` 안에 배치하면, 위젯이 생성되는 시점에 네이티브 배너가
-자동으로 `load` 됩니다. 광고 UI 는 SDK 가 직접 그립니다.
+화면에 배치하면, 위젯이 생성되는 시점에 네이티브 배너가 자동으로 `load` 됩니다.
+광고 UI 는 SDK 가 직접 그립니다.
+
+### 소재 비율(aspectRatio)로 영역 잡기
+
+Tnk SDK 는 광고를 그릴 컨테이너를 **소재 비율에 맞는 크기**로 주면 그 크기에 맞게 소재를
+그립니다. 그래서 `TnkBannerAdView` 는 소재 비율 `aspectRatio`(= 가로/세로)만 받으면
+**폭에 맞는 높이(`폭 / aspectRatio`)로 영역을 자동 계산**합니다.
+
+- 640×100 소재 → `aspectRatio: 640 / 100` (기본값)
+- 640×200 소재 → `aspectRatio: 640 / 200`
+
+폭은 부모 제약을 그대로 쓰거나(`Column(crossAxisAlignment: stretch)` 등) `width` 로 지정합니다.
 
 ```dart
 import 'package:tnk_flutter_pub/tnk_banner_ad_view.dart';
@@ -146,13 +157,22 @@ TnkFlutterPubEventHandler.addListener(
   ),
 );
 
-// 배너 위젯 배치
-SizedBox(
-  width: double.infinity, // 배너는 부모가 지정한 영역 안에 그려진다.
-  height: 60,
-  child: TnkBannerAdView(placementId: "home_banner"),
+// 배너 위젯 배치 (640x200 소재 → 폭에 맞춰 높이 = 폭 * 200/640 자동)
+TnkBannerAdView(
+  placementId: "home_banner",
+  width: MediaQuery.of(context).size.width,
+  aspectRatio: 640 / 200,
 )
 ```
+
+> **특정 픽셀 높이를 강제하고 싶다면** `height` 를 주면 됩니다(이 경우 `aspectRatio` 는
+> 무시되고 소재는 그 박스 안에 비율을 유지한 채 배치됩니다). 다만 박스 비율이 소재 비율과
+> 다르면 위/아래 여백이 생길 수 있으므로, 되도록 `aspectRatio` 로 소재 비율을 맞추는 것을
+> 권장합니다.
+>
+> ```dart
+> TnkBannerAdView(placementId: "home_banner", width: w, height: 100);
+> ```
 
 ### 배너 재요청(새 광고 로드)
 
