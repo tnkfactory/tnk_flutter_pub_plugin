@@ -13,7 +13,7 @@ public class SwiftTnkFlutterPubPlugin: NSObject, FlutterPlugin,TnkPubSdk.TnkAdLi
         registrar.addMethodCallDelegate(instance, channel: channel!)
 
         // 배너 광고 PlatformView 팩토리 등록
-        let factory = TnkBannerAdViewFactory(messenger: registrar.messenger())
+        let factory = TnkBannerAdViewFactory()
         registrar.register(factory, withId: "tnk_flutter_pub/banner_ad")
     }
     

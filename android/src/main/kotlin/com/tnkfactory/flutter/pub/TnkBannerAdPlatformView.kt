@@ -17,9 +17,13 @@ import org.json.JSONObject
 /**
  * Tnk 배너 광고를 담는 PlatformView.
  *
- * 빈 컨테이너([FrameLayout]) 안에 자체 렌더링 배너 뷰 [BannerAdView] 를 추가하고 load 한다.
+ * 컨테이너([FrameLayout]) 안에 자체 렌더링 배너 뷰 [BannerAdView] 를 추가하고 load 한다.
  * 광고 UI 는 SDK 가 직접 그린다. 라이프사이클 이벤트는 기존 `TnkPubAdListener` 채널 규약
  * (JSON 문자열)으로 Flutter 에 전달한다.
+ *
+ * 배너는 폭(MATCH_PARENT)에 맞춰 소재 비율대로 자연 높이(WRAP_CONTENT)로 그려진다.
+ * Flutter 위젯이 소재 비율에 맞는 크기로 영역을 잡아주면(예: 640x200 → 폭 x 폭*200/640),
+ * 박스가 소재에 딱 맞게 채워진다.
  */
 class TnkBannerAdPlatformView(
     context: Context,
@@ -31,6 +35,7 @@ class TnkBannerAdPlatformView(
     private val bannerAdView: BannerAdView = BannerAdView(context, placementId)
 
     init {
+        // 폭은 컨테이너에 맞추고(=박스 폭) 높이는 소재 자연 높이. 세로 중앙 정렬.
         val lp = FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,

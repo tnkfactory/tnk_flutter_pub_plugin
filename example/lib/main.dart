@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
 
   // 배너 광고 placement id (Tnk 콘솔에서 발급받은 값으로 교체)
   static const String _bannerPlacementId = "home_banner";
+  static const String _homeBanner100 = "home_banner_100";
 
   // 배너 표시 여부 (버튼을 눌러야 노출). 배너 2개를 각각 제어한다.
   bool _showBanner1 = false;
@@ -249,39 +250,38 @@ class _MyAppState extends State<MyApp> {
               child: Container(
                 width: double.infinity,
                 alignment: Alignment.topCenter,
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2.0),
                 child: (!_showBanner1 && !_showBanner2)
                     ? const Text(
                         '광고 영역\n버튼을 누르면 여기에 광고가 표시됩니다.',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.black38),
                       )
-                    // 배너 광고: 버튼을 누르면 지정한 영역(너비/높이) 안에 PlatformView 로 노출된다.
-                    // iOS UiKitView 는 고유 크기가 없어 부모가 너비를 제약하지 않으면 0 으로 접혀
-                    // 광고가 로드돼도 화면에 보이지 않는다. 따라서 너비를 화면 폭으로 명시한다.
-                    // 배너 2개는 같은 placementId 를 쓰되 key 가 달라 각각 재생성/load 된다.
+                    // 배너 광고: 버튼을 누르면 각 지면의 "소재 비율"에 맞춰 영역이 잡히고
+                    // 그 안에 PlatformView 로 노출된다. 소재 비율(aspectRatio = 가로/세로)만
+                    // 지정하면 폭에 맞는 높이로 영역이 계산되고, 네이티브 SDK 가 그 크기에 맞게
+                    // 소재를 채운다. (iOS 가이드의 height = 폭 * 200/640 방식과 동일)
+                    // 배너 2개는 key 가 달라 각각 재생성/load 된다.
                     : Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (_showBanner1)
-                            SizedBox(
+                            // 지면 1: 640 x 200 소재
+                            TnkBannerAdView(
+                              key: ValueKey('banner1_$_bannerReloadCount1'),
+                              placementId: _bannerPlacementId,
                               width: MediaQuery.of(context).size.width,
-                              height: 60,
-                              child: TnkBannerAdView(
-                                key: ValueKey('banner1_$_bannerReloadCount1'),
-                                placementId: _bannerPlacementId,
-                              ),
+                              aspectRatio: 640 / 200,
                             ),
                           if (_showBanner1 && _showBanner2)
                             const SizedBox(height: 8),
                           if (_showBanner2)
-                            SizedBox(
+                            // 지면 2: 640 x 100 소재
+                            TnkBannerAdView(
+                              key: ValueKey('banner2_$_bannerReloadCount2'),
+                              placementId: _homeBanner100,
                               width: MediaQuery.of(context).size.width,
-                              height: 60,
-                              child: TnkBannerAdView(
-                                key: ValueKey('banner2_$_bannerReloadCount2'),
-                                placementId: _bannerPlacementId,
-                              ),
+                              aspectRatio: 640 / 100,
                             ),
                         ],
                       ),
