@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/TnkPubSdk-Swift.h</key>
 		<data>
-		1iemqmSpIGbdLKFqb76+3jyVIRA=
+		VqL9V5Lmz8yqEgnY2FO1EeuYcSE=
 		</data>
 		<key>Headers/TnkPubSdk.h</key>
 		<data>
@@ -14,51 +14,55 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Q2TBIITBTM5ycDgkGDkE3P9mpqc=
+		+h2cDMJTHK9DwbRD6WJ6j156Vg8=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		8yUEJy0YgE80wJKARW9Sxcfeco0=
+		87wnNg5PVZNIirlTpXB5vx1XXEQ=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		gp4anaIlm0tar8yIuBmn6fmfRWk=
+		9fRI+pYZGtJo96crW1E+fhhrnp4=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		lqDeRByLAqRKnSukYd0IvmPQ/mc=
+		AzRsEpI70L7agtJvxqG2NC610uk=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		gp4anaIlm0tar8yIuBmn6fmfRWk=
+		9fRI+pYZGtJo96crW1E+fhhrnp4=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		hQDs6KOJBaQltMWVj/rIeKGqodo=
+		JPT+O4z/jfUOHwKr1oJD9H9DCEE=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		8yUEJy0YgE80wJKARW9Sxcfeco0=
+		87wnNg5PVZNIirlTpXB5vx1XXEQ=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		IOuFfFuwqtq8STa6yXr7IaZT7wE=
+		DQOnKb+SBoWyUIluRU73tTHsR0I=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		ErsSC/CFRC9K73s4P9XXbKrJkiM=
+		FfbrMn9Fk6K5K9grPMespw+csAM=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		IOuFfFuwqtq8STa6yXr7IaZT7wE=
+		DQOnKb+SBoWyUIluRU73tTHsR0I=
 		</data>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		Ea2T7K+MT3cLGjrjsh2GmTKfNFs=
+		/wB2hRh4f12PBu0aT2pnQM1C5I0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		r4TVPTbmVWgdu7g9fac7h529C6g=
+		iBLLxy8VkVl+3DqKUEi9wmQTnuM=
+		</data>
+		<key>PrivacyInfo.xcprivacy</key>
+		<data>
+		W/s3CsdT+TU+UVQRbldLP3TOd/w=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -67,11 +71,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1iemqmSpIGbdLKFqb76+3jyVIRA=
+			VqL9V5Lmz8yqEgnY2FO1EeuYcSE=
 			</data>
 			<key>hash2</key>
 			<data>
-			xX76cSxCjxSuIg9uTzzTorCOcIdWBJIzw3x0lwp6h/0=
+			Z5iXRiV3+JEMEritLQwYXTSvyoza3oTh7+7MhJnDPVc=
 			</data>
 		</dict>
 		<key>Headers/TnkPubSdk.h</key>
@@ -89,121 +93,132 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8yUEJy0YgE80wJKARW9Sxcfeco0=
+			87wnNg5PVZNIirlTpXB5vx1XXEQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			CqBWrZAYRWIJYbB6cDL+HSWn0zuFY26KvhAyrSc43k4=
+			BTl17HGctHQhKuzDx9/FnAwXNqWEI9eqOP8A8/gY9Kc=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gp4anaIlm0tar8yIuBmn6fmfRWk=
+			9fRI+pYZGtJo96crW1E+fhhrnp4=
 			</data>
 			<key>hash2</key>
 			<data>
-			tgbWSQOMXxtTZdE3l702kp2O+D2YIyuvMc8c/zyu8D0=
+			jfP/ZxFjt3Slx7AbqK3cznfUfspB2IVAG8wxtq2Mr6I=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			lqDeRByLAqRKnSukYd0IvmPQ/mc=
+			AzRsEpI70L7agtJvxqG2NC610uk=
 			</data>
 			<key>hash2</key>
 			<data>
-			K3e4WZH+bv2IhDThwSfFzOQsTfWeXP74LymTaJfglG4=
+			ajhF6szgzyj6tfLrDXAqLrFRzIv4nihTdWYrS6B3sl0=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gp4anaIlm0tar8yIuBmn6fmfRWk=
+			9fRI+pYZGtJo96crW1E+fhhrnp4=
 			</data>
 			<key>hash2</key>
 			<data>
-			tgbWSQOMXxtTZdE3l702kp2O+D2YIyuvMc8c/zyu8D0=
+			jfP/ZxFjt3Slx7AbqK3cznfUfspB2IVAG8wxtq2Mr6I=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hQDs6KOJBaQltMWVj/rIeKGqodo=
+			JPT+O4z/jfUOHwKr1oJD9H9DCEE=
 			</data>
 			<key>hash2</key>
 			<data>
-			JKfmD+wxrWJnIgk82IOu1ODkzcuaucI4fbSvumIic7k=
+			paoXwuTxc/GQmBUV7YTLAxKOuloM8NrqDE2LS5Rms9A=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8yUEJy0YgE80wJKARW9Sxcfeco0=
+			87wnNg5PVZNIirlTpXB5vx1XXEQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			CqBWrZAYRWIJYbB6cDL+HSWn0zuFY26KvhAyrSc43k4=
+			BTl17HGctHQhKuzDx9/FnAwXNqWEI9eqOP8A8/gY9Kc=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IOuFfFuwqtq8STa6yXr7IaZT7wE=
+			DQOnKb+SBoWyUIluRU73tTHsR0I=
 			</data>
 			<key>hash2</key>
 			<data>
-			I+d6s+5hlI+MFZVNOeLEw7ZSOGGHo9hhP9DwEp8UkgE=
+			Rt2peEvWgVKQBGsNKHn7uLJgbjPrOo4ovEZD81B2PzI=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ErsSC/CFRC9K73s4P9XXbKrJkiM=
+			FfbrMn9Fk6K5K9grPMespw+csAM=
 			</data>
 			<key>hash2</key>
 			<data>
-			RCeoJMl0DGSB9TC0oq9voQKXv5Ili1ZJzgqj1h2l8GE=
+			ZZp27wKTWj3V/E3ux5eYpaWHxFtjdSqG8uI5f2m0AQE=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IOuFfFuwqtq8STa6yXr7IaZT7wE=
+			DQOnKb+SBoWyUIluRU73tTHsR0I=
 			</data>
 			<key>hash2</key>
 			<data>
-			I+d6s+5hlI+MFZVNOeLEw7ZSOGGHo9hhP9DwEp8UkgE=
+			Rt2peEvWgVKQBGsNKHn7uLJgbjPrOo4ovEZD81B2PzI=
 			</data>
 		</dict>
 		<key>Modules/TnkPubSdk.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Ea2T7K+MT3cLGjrjsh2GmTKfNFs=
+			/wB2hRh4f12PBu0aT2pnQM1C5I0=
 			</data>
 			<key>hash2</key>
 			<data>
-			hbPXDOK2qBl0AkohYIOUm/gZ9GrrGFXAkT8ZLF9cuvA=
+			5u2n3zGNlJx+ZtFul/9ArVNqt7Dxo2syuJ5XAC79f80=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			r4TVPTbmVWgdu7g9fac7h529C6g=
+			iBLLxy8VkVl+3DqKUEi9wmQTnuM=
 			</data>
 			<key>hash2</key>
 			<data>
-			WLPrbxV8WNMc1Qd2BWkEQwXks/3Wr7rL41waTZYI9IQ=
+			paT0515DYis5t+3yXTs2uWyPQF3l0vKB3D4BSuaVjJ8=
+			</data>
+		</dict>
+		<key>PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			W/s3CsdT+TU+UVQRbldLP3TOd/w=
+			</data>
+			<key>hash2</key>
+			<data>
+			lt62Uc9I5dBSFgb6sQ8c9Tcqr3kKyTMTTZecmHiGPl8=
 			</data>
 		</dict>
 	</dict>
