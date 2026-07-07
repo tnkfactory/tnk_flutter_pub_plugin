@@ -9,10 +9,62 @@
 flutter pub add tnk_flutter_pub
 ```
 
+설치가 완료되면 `pubspec.yaml` 의 `dependencies` 에 플러그인이 추가됩니다.
+
+```yaml
+dependencies:
+  tnk_flutter_pub: ^0.0.6
+```
+
+특정 버전을 지정하여 설치하려면 다음과 같이 실행합니다.
+
+```
+flutter pub add tnk_flutter_pub:0.0.6
+```
+
 플러그인 추가 후 iOS 의존성을 설치합니다.
 
 ```
 cd ios && pod install
+```
+
+## Update (플러그인 업데이트)
+
+현재 설치된 버전과 최신 버전은 다음 명령으로 확인합니다.
+
+```
+flutter pub outdated
+```
+
+최신 버전으로 업데이트하려면 다음과 같이 실행합니다.
+
+```
+flutter pub upgrade tnk_flutter_pub
+```
+
+> `flutter pub upgrade` 는 `pubspec.yaml` 의 버전 제약 범위 내에서만 올라갑니다.
+> 메이저/마이너 제약을 넘어 업데이트하려면 `pubspec.yaml` 의 버전을 직접 수정하거나
+> 아래 명령을 사용합니다.
+>
+> ```
+> flutter pub upgrade --major-versions tnk_flutter_pub
+> ```
+
+플러그인 업데이트 후에는 **반드시 Pod 을 다시 설치**해야 새 버전의 네이티브 SDK
+(TnkPubSdk.xcframework)가 반영됩니다.
+
+```
+cd ios && pod install --repo-update
+```
+
+업데이트 후 광고가 정상 동작하지 않거나 빌드 오류가 발생하면 빌드 캐시와 Pod 을
+정리한 뒤 다시 설치합니다.
+
+```
+flutter clean
+cd ios && rm -rf Pods Podfile.lock && pod install --repo-update
+cd .. && flutter pub get
+flutter run
 ```
 
 ## iOS 프로젝트 설정

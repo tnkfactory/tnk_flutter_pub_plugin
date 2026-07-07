@@ -9,6 +9,50 @@
 flutter pub add tnk_flutter_pub
 ```
 
+설치가 완료되면 `pubspec.yaml` 의 `dependencies` 에 플러그인이 추가됩니다.
+
+```yaml
+dependencies:
+  tnk_flutter_pub: ^0.0.6
+```
+
+특정 버전을 지정하여 설치하려면 다음과 같이 실행합니다.
+
+```
+flutter pub add tnk_flutter_pub:0.0.6
+```
+
+## Update (플러그인 업데이트)
+
+현재 설치된 버전과 최신 버전은 다음 명령으로 확인합니다.
+
+```
+flutter pub outdated
+```
+
+최신 버전으로 업데이트하려면 다음과 같이 실행합니다.
+
+```
+flutter pub upgrade tnk_flutter_pub
+```
+
+> `flutter pub upgrade` 는 `pubspec.yaml` 의 버전 제약 범위 내에서만 올라갑니다.
+> 메이저/마이너 제약을 넘어 업데이트하려면 `pubspec.yaml` 의 버전을 직접 수정하거나
+> 아래 명령을 사용합니다.
+>
+> ```
+> flutter pub upgrade --major-versions tnk_flutter_pub
+> ```
+
+업데이트 후 광고가 정상 동작하지 않거나 빌드 오류가 발생하면 빌드 캐시를 정리한 뒤
+다시 빌드합니다. (플러그인 내부의 Tnk Android SDK 의존성도 이때 함께 갱신됩니다.)
+
+```
+flutter clean
+flutter pub get
+flutter run
+```
+
 ## Android 프로젝트 설정
 
 `android/app/build.gradle` 에서 다음을 확인/설정합니다. (전면광고 SDK 특성상 minSdk 21,
